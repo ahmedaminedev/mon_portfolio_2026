@@ -20,21 +20,21 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNavName, setShowNavName] = useState(false);
   
-  // Fonction pour résoudre l'URL de l'image en suivant la logique PUBLIC_URL demandée
+  // Fonction robuste pour résoudre l'URL de l'image
   const resolveImageUrl = (path: string) => {
     if (!path) return FALLBACK_PROFILE_IMAGE;
-    if (path.startsWith('http')) return path;
     
-    // Récupération de PUBLIC_URL (souvent injecté par les bundlers comme Vite ou Webpack)
-    // On utilise un fallback vide pour éviter les erreurs undefined
-    const publicUrl = (window as any).process?.env?.PUBLIC_URL || '';
+    // Si c'est déjà une URL complète, on la garde
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+      return path;
+    }
     
-    // Nettoyage pour éviter les doubles slashes (ex: /public/ + /images/ => /public//images/)
-    const baseUrl = publicUrl.endsWith('/') ? publicUrl.slice(0, -1) : publicUrl;
+    // Nettoyage du chemin pour s'assurer qu'il commence par un seul /
+    // Indispensable pour que Vercel cherche l'image dans le dossier 'public' à la racine.
+    // Note: Localement, Vite sert également le dossier public à la racine.
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     
-    const finalUrl = `${baseUrl}${cleanPath}`;
-    return finalUrl;
+    return cleanPath;
   };
 
   const [imgSrc, setImgSrc] = useState(() => resolveImageUrl(profile.profileImageUrl));
