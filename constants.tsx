@@ -64,7 +64,7 @@ export const PROFILE_DATA: ProfileData = {
     fr: "Ingénieur Junior passionné par le FullStack et l'IA, transformant vos idées en produits numériques performants.",
     en: "Junior Engineer passionate about FullStack and AI, transforming your ideas into high-performance digital products."
   },
-  profileImageUrl: "/images/mon_image.png",
+  profileImageUrl: "/images/mon_image.png", // Chemin local. Si non trouvé, Header utilisera le fallback.
   socials: [
     { name: 'LinkedIn', url: CONTACT_INFO.linkedinUrl, icon: LinkedInIcon },
     { name: 'GitHub', url: 'https://github.com/ahmedaminedev', icon: GitHubIconConst },

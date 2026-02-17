@@ -12,18 +12,22 @@ interface HeaderProps {
   uiLabels: { [key: string]: LocalizedString };
 }
 
-const FALLBACK_PROFILE_IMAGE = "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmVzc2lvbmFsJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=400&h=400&q=80";
+// Fallback image plus robuste (Portrait professionnel via Unsplash)
+const FALLBACK_PROFILE_IMAGE = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop";
 
 export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, language, setLanguage, uiLabels }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNavName, setShowNavName] = useState(false);
   const [imgSrc, setImgSrc] = useState(profile.profileImageUrl);
+  const [imgLoading, setImgLoading] = useState(true);
   const heroSectionRef = useRef<HTMLElement>(null);
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
 
+  // Synchronisation si profileImageUrl change
   useEffect(() => {
     setImgSrc(profile.profileImageUrl);
+    setImgLoading(true);
   }, [profile.profileImageUrl]);
 
   useEffect(() => {
@@ -61,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
     const id = href.replace('#', '');
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100; // Hauteur du header + marge
+      const offset = 100;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       
@@ -234,16 +238,27 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
                 </div>
 
                 <div className="relative z-10 w-full h-full rounded-[4.5rem] overflow-hidden border border-white/10 shadow-2xl bg-card-bg">
+                  {imgLoading && (
+                    <div className="absolute inset-0 bg-white/5 animate-pulse flex items-center justify-center">
+                      <i className="fas fa-circle-notch fa-spin text-primary/30"></i>
+                    </div>
+                  )}
                   <img 
                     src={imgSrc} 
                     alt={profile.name} 
-                    onError={() => setImgSrc(FALLBACK_PROFILE_IMAGE)}
-                    className="w-full h-full object-cover brightness-105 transition-all duration-1000 scale-[1.02] group-hover:scale-100"
+                    onLoad={() => setImgLoading(false)}
+                    onError={() => {
+                      setImgSrc(FALLBACK_PROFILE_IMAGE);
+                      setImgLoading(false);
+                    }}
+                    className={`w-full h-full object-cover transition-all duration-1000 scale-[1.02] group-hover:scale-100 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg-main/40 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-main/60 via-transparent to-transparent"></div>
                 </div>
                 
-                <div className="absolute -inset-6 border border-white/[0.05] rounded-[5.5rem] -z-10 group-hover:scale-105 transition-transform duration-700"></div>
+                {/* Glow de fond pour l'image */}
+                <div className="absolute -inset-8 bg-primary/10 rounded-[5.5rem] blur-2xl -z-10 group-hover:bg-primary/20 transition-all duration-700"></div>
+                <div className="absolute -inset-2 border border-white/[0.1] rounded-[4.8rem] -z-10 group-hover:scale-105 transition-transform duration-700"></div>
               </div>
             </div>
           </div>
