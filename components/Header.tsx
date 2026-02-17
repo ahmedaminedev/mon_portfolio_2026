@@ -19,14 +19,29 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNavName, setShowNavName] = useState(false);
-  const [imgSrc, setImgSrc] = useState(profile.profileImageUrl);
+  
+  // Fonction pour résoudre l'URL de l'image de manière robuste
+  const resolveImageUrl = (path: string) => {
+    if (!path) return FALLBACK_PROFILE_IMAGE;
+    if (path.startsWith('http')) return path;
+    
+    // Simule la logique PUBLIC_URL pour Vercel/React
+    const baseUrl = (window as any).process?.env?.PUBLIC_URL || '';
+    // Nettoyage des slashes pour éviter "//"
+    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    
+    return `${cleanBase}${cleanPath}`;
+  };
+
+  const [imgSrc, setImgSrc] = useState(() => resolveImageUrl(profile.profileImageUrl));
   const [imgLoading, setImgLoading] = useState(true);
   const heroSectionRef = useRef<HTMLElement>(null);
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
 
   // Synchronisation si profileImageUrl change
   useEffect(() => {
-    setImgSrc(profile.profileImageUrl);
+    setImgSrc(resolveImageUrl(profile.profileImageUrl));
     setImgLoading(true);
   }, [profile.profileImageUrl]);
 
@@ -247,7 +262,8 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
                     src={imgSrc} 
                     alt={profile.name} 
                     onLoad={() => setImgLoading(false)}
-                    onError={() => {
+                    onError={(e) => {
+                      console.warn("Failed to load profile image, using fallback.", e);
                       setImgSrc(FALLBACK_PROFILE_IMAGE);
                       setImgLoading(false);
                     }}
