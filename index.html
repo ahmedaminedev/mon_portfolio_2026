@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <!-- Standard Meta Tags -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="Ahmed Amine Nafti">
+  <meta name="description" content="Ingénieur FullStack spécialisé en architecture logicielle, IA et développement web haute performance. Découvrez mes projets et expertises chez TechBridge.">
+  <meta name="keywords" content="Ahmed Amine Nafti, Ingénieur FullStack, TechBridge, Développement Web, Spring Boot, React, Node.js, IA, Freelance Tunisie">
+  <meta name="robots" content="index, follow">
+
+  <!-- Browser UI Theme -->
+  <meta name="theme-color" content="#09090b">
+  <meta name="msapplication-navbutton-color" content="#09090b">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Ahmed Amine Nafti | Ingénieur FullStack & Elite Web Architecture</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ahmed-amine-nafti.com/">
+  <meta property="og:title" content="Ahmed Amine Nafti | Ingénieur FullStack">
+  <meta property="og:description" content="Architecte de solutions numériques immersives et performantes. Explorez mon univers technologique.">
+  <meta property="og:image" content="/images/og-preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://ahmed-amine-nafti.com/">
+  <meta property="twitter:title" content="Ahmed Amine Nafti | Ingénieur FullStack">
+  <meta property="twitter:description" content="Ingénieur spécialisé en solutions web scalables et IA.">
+  <meta property="twitter:image" content="/images/og-preview.png">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/8220/8220310.png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/8220/8220310.png">
+
+  <!-- Performance & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': 'var(--primary-color)',
+            'bg-main': '#09090b',
+            'card-bg': '#141417',
+            'text-main': '#fafafa',
+            'text-dim': '#a1a1aa',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Syne', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'fade-in-scale': 'fadeInScale 0.5s ease-out forwards',
+            'fade-in-slide-up': 'fadeInSlideUp 0.6s ease-out forwards',
+          },
+          keyframes: {
+            fadeInScale: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            fadeInSlideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+  :root {
+    --primary-color: #38bdf8; /* Couleur par défaut (FR) */
+  }
+
+  body {
+    background-color: #09090b;
+    color: #fafafa;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    cursor: none;
+  }
+  
+  /* Scrollbar Cyber-Bridge Dynamique Permanente */
+  ::-webkit-scrollbar { 
+    width: 14px; 
+  }
+  ::-webkit-scrollbar-track { 
+    background: #050505; 
+  }
+  ::-webkit-scrollbar-thumb { 
+    background: #3f3f46;
+    border-radius: 7px;
+    border: 3px solid #050505;
+  }
+  ::-webkit-scrollbar-thumb:hover { 
+    background: var(--primary-color); 
+  }
+  
+  ::selection { background: var(--primary-color); color: #000; }
+  
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .reveal-section.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Curseur Sans Latence Dynamique */
+  #custom-cursor {
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 10000;
+    will-change: transform;
+    transition: transform 0.1s ease, background 0.3s ease;
+  }
+  
+  #cursor-border {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--primary-color);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+    transition: transform 0.08s ease-out, border-color 0.3s ease;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 1024px) {
+    #custom-cursor, #cursor-border { display: none; }
+    body { cursor: auto; }
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="custom-cursor"></div>
+  <div id="cursor-border"></div>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+  <script>
+    const cursor = document.getElementById('custom-cursor');
+    const border = document.getElementById('cursor-border');
+    
+    window.addEventListener('mousemove', (e) => {
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      cursor.style.transform = `translate3d(${x - 5}px, ${y - 5}px, 0)`;
+      border.style.transform = `translate3d(${x - 17}px, ${y - 17}px, 0)`;
+    });
+
+    document.addEventListener('mousedown', () => {
+      cursor.style.transform += ' scale(0.7)';
+      border.style.transform += ' scale(1.4)';
+    });
+  </script>
+</body>
+</html>
