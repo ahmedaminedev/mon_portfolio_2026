@@ -20,18 +20,21 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showNavName, setShowNavName] = useState(false);
   
-  // Fonction pour résoudre l'URL de l'image de manière robuste
+  // Fonction pour résoudre l'URL de l'image en suivant la logique PUBLIC_URL demandée
   const resolveImageUrl = (path: string) => {
     if (!path) return FALLBACK_PROFILE_IMAGE;
     if (path.startsWith('http')) return path;
     
-    // Simule la logique PUBLIC_URL pour Vercel/React
-    const baseUrl = (window as any).process?.env?.PUBLIC_URL || '';
-    // Nettoyage des slashes pour éviter "//"
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    // Récupération de PUBLIC_URL (souvent injecté par les bundlers comme Vite ou Webpack)
+    // On utilise un fallback vide pour éviter les erreurs undefined
+    const publicUrl = (window as any).process?.env?.PUBLIC_URL || '';
+    
+    // Nettoyage pour éviter les doubles slashes (ex: /public/ + /images/ => /public//images/)
+    const baseUrl = publicUrl.endsWith('/') ? publicUrl.slice(0, -1) : publicUrl;
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     
-    return `${cleanBase}${cleanPath}`;
+    const finalUrl = `${baseUrl}${cleanPath}`;
+    return finalUrl;
   };
 
   const [imgSrc, setImgSrc] = useState(() => resolveImageUrl(profile.profileImageUrl));
@@ -263,7 +266,7 @@ export const Header: React.FC<HeaderProps> = ({ profile, navItems, contact, lang
                     alt={profile.name} 
                     onLoad={() => setImgLoading(false)}
                     onError={(e) => {
-                      console.warn("Failed to load profile image, using fallback.", e);
+                      console.warn("Failed to load profile image at:", imgSrc, ". Falling back to Unsplash.");
                       setImgSrc(FALLBACK_PROFILE_IMAGE);
                       setImgLoading(false);
                     }}
